@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+.Filtering.js
+.React-table.js
+.Sorting.js
+.Table.js
 # dependencies
 /node_modules
 /.pnp

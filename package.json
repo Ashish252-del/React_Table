@@ -1,4 +1,5 @@
 {
+  "homepage": "https://Ashish252-del.github.io/React_Table",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -9,6 +10,7 @@
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@material/linear-progress": "^14.0.0",
+    "@mui/icons-material": "^5.10.16",
     "@mui/lab": "^5.0.0-alpha.111",
     "@mui/material": "^5.10.17",
     "@mui/styles": "^5.10.16",
@@ -29,6 +31,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -50,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }

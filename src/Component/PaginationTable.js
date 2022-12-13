@@ -1,11 +1,20 @@
 
 import React, { useMemo, useState } from "react";
-import { useTable, useGlobalFilter, useFilters , usePagination } from "react-table";
+import {
+  useTable,
+  useGlobalFilter,
+  useFilters,
+  usePagination,
+  useSortBy,
+} from "react-table";
 import MOCK_DATA from "./MOCK_DATA.json";
 import { COLUMNS, GROUPED_COLUMNS } from "./coloumns";
 import GlobleFilter from "./GlobleFilter";
 import "./table.css";
 import ColumnFilter from "./ColumnFilter";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import Button from "@mui/material/Button";
 export default function PaginationTable() {
   // useing useMEmo hook its insured that deta is recreated at ebery render
   const columns = useMemo(() => GROUPED_COLUMNS, []);
@@ -18,11 +27,12 @@ export default function PaginationTable() {
   const tableInstance = useTable(
     {
       columns,
-          data,
+      data,
       defaultColumn,
-      },
-      useFilters,
-      useGlobalFilter,
+    },
+    useFilters,
+    useGlobalFilter,
+    useSortBy,
     usePagination
   );
    
@@ -47,17 +57,32 @@ export default function PaginationTable() {
     // console.log(setGlobalFilter);
     const { pageIndex } = state;
     return (
-        <>
-            
-        <GlobleFilter filter={globalFilter} setFilter={setGlobalFilter} />
+      <>
+            <GlobleFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            <br/>
+          
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                        {column.render("Header")}
-                        <div>{column.canFilter ? column.render("Filter"): null}</div>
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <div>
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
+                    {column.render("Header")}
+                    <br />
+                    <span>
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <ArrowUpwardIcon />
+                        ) : (
+                          <ArrowDownwardIcon />
+                        )
+                      ) : (
+                        ""
+                      )}
+                    </span>
                   </th>
                 ))}
               </tr>
@@ -77,18 +102,31 @@ export default function PaginationTable() {
               );
             })}
           </tbody>
-        
-            </table>
-            <div>
-                <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex +1} of {pageOptions.length}
-                    </strong>
+        </table>
+        <div>
+          <span>
+            Page{" "}
+            <strong>
+              {pageIndex + 1} of {pageOptions.length}
+            </strong>
                 </span>
-                <button onClick={()=>previousPage() }disabled={!canPreviousPage}>previous</button>
-                <button onClick={()=>nextPage()} disabled={!canNextPage}>Next</button>
-            </div>
+                <br/>
+          <Button
+            variant="outlined"
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+          >
+            Previous
+          </Button>
+          &nbsp;&nbsp;
+          <Button
+            variant="contained"
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+          >
+            Next
+          </Button>
+        </div>
       </>
     );
 }
